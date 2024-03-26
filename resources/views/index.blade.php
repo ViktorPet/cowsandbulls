@@ -43,6 +43,32 @@
           
            <div id="data-container" > </div>
            
+            <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
+                <a href="#" id="fetch-games" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal">Open Modal</a>
+
+              
+                </button>
+
+                 <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <ol id="games-list" ></ol>                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+           
         </div>
 
         @include('layouts.sidebar')
@@ -57,6 +83,7 @@
         $('#submitGame').click(function(e){
             e.preventDefault();
             $('#errorStartForm').empty();
+            $('#errorAttemptForm').empty();
             var dataContainer = $('#data-container');
             var playerName = $('#playerName').val();
           
@@ -206,6 +233,31 @@
             });
         });
     });
+    $(document).ready(function() {
+            $('#fetch-games').click(function(e) {
+                e.preventDefault(); // Prevent the default action of the anchor tag
+                
+                $.ajax({
+                    url: "{{ route('games.ranking') }}",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        $('#games-list').empty(); // Clear previous results
+                        
+                        if(response.length > 0) {
+                            $.each(response, function(index, game) {
+                                $('#games-list').append('<li>' + game.user_name + ' has ' + game.time_taken + '</li>');
+                            });
+                        } else {
+                            $('#games-list').append('<li>No games found</li>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
 </script>
 
 

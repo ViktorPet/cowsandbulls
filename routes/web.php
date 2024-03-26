@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'GameController@index');
 Route::get('/attempts', 'AttemptController@index')->name('guess.attempts');
+Route::get('/ranking', 'AttemptController@ranking')->name('games.ranking');
+
 
 Route::post('/start', 'GameController@start' )->name('game.start');
 Route::post('/guess', 'GameController@guess')->name('game.guess');

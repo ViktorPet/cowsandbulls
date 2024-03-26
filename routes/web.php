@@ -13,9 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'GameController@index');
+Route::get('/attempts', 'AttemptController@index')->name('guess.attempts');
+
+Route::post('/start', 'GameController@start' )->name('game.start');
+Route::post('/guess', 'GameController@guess')->name('game.guess');
+
 
 Auth::routes();
 

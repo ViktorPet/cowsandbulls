@@ -10,20 +10,14 @@ use DB;
 class AttemptController extends Controller
 {
     
-    public function index(Request $request){
-
-       
+    public function index(Request $request){       
        
         if ($request->ajax()) {
-
             
-            $data = Attempt::latest()->first(); 
-
-          
+            $data = Attempt::latest()->first();          
 
             return response()->json(['data' => $data]);
         }
-
     }
 
     public function ranking(){
@@ -35,8 +29,7 @@ class AttemptController extends Controller
             ->limit(10)
             ->get();
 
-            return response()->json($games);
-
+        return response()->json($games);
 
     }
 }

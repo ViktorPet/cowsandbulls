@@ -13,7 +13,7 @@
       <div class="row gy-4">
 
         <div class="col-lg-7">
-          <p id="enter" > Enter your name and start the game </p>          
+          <p id="enter" class="fw-bold" > Enter your name and start the game </p>          
                   
           <form class="form-inline" id="gameStart" >
 
@@ -34,49 +34,19 @@
           <form class="form-inline" id="attempt" style="display: none;" >
                   <div class="form-group mx-sm-3 mb-2" >
                     <label for="" class="sr-only">Name</label>
-                    <input type="text" class="form-control" name="number" id="guessingNumber" placeholder="Player Name">
+                    <input type="text" class="form-control" name="number" id="guessingNumber" placeholder="Enter 4 digit number">
 
                     <button type="submit" id="submitAttempt" class="btn btn-success mb-1">Confirm identity</button>
                   </div>
           </form> 
-           <div id="errorAttemptForm"></div> 
-          
-           <div id="data-container" > </div>
-           
-            <!-- Button trigger modal -->
-                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
-                <a href="#" id="fetch-games" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal">Open Modal</a>
-
-              
-                </button>
-
-                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <ol id="games-list" ></ol>                    
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                    </div>
-                </div>
-                </div>
-           
-        </div>
-
+           <div id="errorAttemptForm"></div>           
+           <div id="data-container" > </div>          
+       </div>
         @include('layouts.sidebar')
       </div>
-
+      @include('modal')
     </div>
-  </section><!-- End Start Game Section -->
-   
+  </section><!-- End Start Game Section -->   
 
   <script>
     $(document).ready(function(){
@@ -109,10 +79,7 @@
                    
                     playerName =   playerName  + ' make your first attempt to guess the number'
 
-                    $('#fieldValue').text(playerName);
-                   
-                  
-                    // Show the submitted data section
+                    $('#fieldValue').text(playerName);                 
                     $('#submittedData').show();
                     $('#attempt').show();
                     $('#gameStart')[0].reset();
@@ -122,10 +89,8 @@
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
                         var errors = xhr.responseJSON.errors;
                         var errorHtml = '<div class="alert alert-danger">';
-
-                      //  $.each(errors, function(key, value) {
-                            errorHtml += '<p>' + errors['user_name'] + '</p>'; // Assuming error messages are strings
-                     //   });
+                     
+                        errorHtml += '<p>' + errors['user_name'] + '</p>'; 
 
                         errorHtml += '</div>';
 
@@ -168,10 +133,8 @@
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
                         var errors = xhr.responseJSON.errors;
                         var errorHtml = '<div class="alert alert-danger">';
-
-                      //  $.each(errors, function(key, value) {
-                            errorHtml += '<p id="element" >' + errors['number'] + '</p>'; // Assuming error messages are strings
-                     //   });
+                    
+                        errorHtml += '<p id="element" >' + errors['number'] + '</p>'; // Assuming error messages are strings                     
 
                         errorHtml += '</div>';
 
@@ -186,43 +149,32 @@
     });
    
     $(document).ready(function(){
-        $('#submitAttempt').click(function(e){
-
-            
+        $('#submitAttempt').click(function(e){           
            
             $.ajax({
                 url: "/attempts",
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                console.log(response);
-              
-               
-              
+                console.log(response);           
                     // Handle the response here
                     var dataContainer = $('#data-container');
                     var fieldValue    = $('#fieldValue');
-                    if( response.data.bulls == 4 ){
-                      
+                    if( response.data.bulls == 4 ){                      
                         dataContainer.empty(); // Clear previous data if any
                         fieldValue.empty();
                         $('#attempt').hide();                   
                         $('#enter').show();
                         $('#gameStart').show();
                         dataContainer.append('<p>'+ 'You guessed  right number ' + ' ' + response.data.number_to_guess +  '</p>'); // Assuming name is a field in your data
-
                     } else {
                          if(response.data.error == 0){
                             dataContainer.append('<p>' + '' +'You guessed ' + ' ' + response.data.cows + ' cows and ' + ' ' + response.data.bulls + ' ' + ' bulls' + '</p>'); // Assuming name is a field in your data
                    
                          } else {
                             dataContainer.append('<p>' + '' + 'Error' + '' + '</p>'); // Assuming name is a field in your data
-                         }
-                         
-                   
-
-                    }
-                
+                         }                      
+                   }              
                 
                 },
                 error: function(xhr, status, error) {
@@ -246,7 +198,7 @@
                         
                         if(response.length > 0) {
                             $.each(response, function(index, game) {
-                                $('#games-list').append('<li>' + game.user_name + ' has ' + game.time_taken + '</li>');
+                                $('#games-list').append('<li>' + game.user_name + ' finished in' + game.time_taken + '</li>');
                             });
                         } else {
                             $('#games-list').append('<li>No games found</li>');
@@ -259,6 +211,4 @@
             });
         });
 </script>
-
-
 @endsection

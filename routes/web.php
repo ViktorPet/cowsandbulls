@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', 'GameController@index');
 Route::get('/attempts', 'AttemptController@index')->name('guess.attempts');

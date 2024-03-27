@@ -198,7 +198,7 @@
                         
                         if(response.length > 0) {
                             $.each(response, function(index, game) {
-                                $('#games-list').append('<li>' + game.user_name + ' finished in' + game.time_taken + '</li>');
+                                $('#games-list').append('<li>' + game.user_name + ' finished in ' + '' + game.time_taken + '</li>');
                             });
                         } else {
                             $('#games-list').append('<li>No games found</li>');

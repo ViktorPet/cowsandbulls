@@ -49,7 +49,7 @@
     <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
     <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
-    <script src="{{ mix('js/fetch-games.js') }}"></script>
+    
 
      <!-- <script src="{{ asset('js/custom.js') }}" ></script>  -->
 

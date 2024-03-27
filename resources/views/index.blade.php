@@ -36,7 +36,7 @@
                     <label for="" class="sr-only">Name</label>
                     <input type="text" class="form-control" name="number" id="guessingNumber" placeholder="Enter 4 digit number">
 
-                    <button type="submit" id="submitAttempt" class="btn btn-success mb-1">Confirm identity</button>
+                    <button type="submit" id="submitAttempt" class="btn btn-success mb-1">Submit Number</button>
                   </div>
           </form> 
            <div id="errorAttemptForm"></div>           

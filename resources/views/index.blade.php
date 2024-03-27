@@ -124,6 +124,7 @@
                 },
                 success: function(response){
                     console.log(response);
+                    $('#gameStart').hide();
                     $('#guessingNumber').val('')
                     $('#attempt')[0].reset();                  
                    
@@ -150,39 +151,40 @@
    
     $(document).ready(function(){
         $('#submitAttempt').click(function(e){           
-           
-            $.ajax({
-                url: "/attempts",
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                console.log(response);           
-                    // Handle the response here
-                    var dataContainer = $('#data-container');
-                    var fieldValue    = $('#fieldValue');
-                    if( response.data.bulls == 4 ){                      
-                        dataContainer.empty(); // Clear previous data if any
-                        fieldValue.empty();
-                        $('#attempt').hide();                   
-                        $('#enter').show();
-                        $('#gameStart').show();
-                        dataContainer.append('<p>'+ 'You guessed  right number ' + ' ' + response.data.number_to_guess +  '</p>'); // Assuming name is a field in your data
-                    } else {
-                         if(response.data.error == 0){
-                            dataContainer.append('<p>' + '' +'You guessed ' + ' ' + response.data.cows + ' cows and ' + ' ' + response.data.bulls + ' ' + ' bulls' + '</p>'); // Assuming name is a field in your data
-                   
-                         } else {
-                            dataContainer.append('<p>' + '' + 'Error' + '' + '</p>'); // Assuming name is a field in your data
-                         }                      
-                   }              
-                
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    // Handle errors here
-                }
-                
-            });
+            setTimeout(function(){
+                $.ajax({
+                    url: "{{ route('guess.attempts') }}",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                    console.log(response);           
+                        // Handle the response here
+                        var dataContainer = $('#data-container');
+                        var fieldValue    = $('#fieldValue');
+                        if( response.data.bulls == 4 ){                      
+                            dataContainer.empty(); // Clear previous data if any
+                            fieldValue.empty();
+                            $('#attempt').hide();                   
+                            $('#enter').show();
+                            $('#gameStart').show();
+                            dataContainer.append('<p>'+ 'You guessed  right number ' + ' ' + response.data.number_to_guess +  '</p>'); // Assuming name is a field in your data
+                        } else {
+                            if(response.data.error == 0){
+                                dataContainer.append('<p>' + '' +'You guessed ' + ' ' + response.data.cows + ' cows and ' + ' ' + response.data.bulls + ' ' + ' bulls' + '</p>'); // Assuming name is a field in your data
+                    
+                            } else {
+                                dataContainer.append('<p>' + '' + 'Error' + '' + '</p>'); // Assuming name is a field in your data
+                            }                      
+                    }              
+                    
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        // Handle errors here
+                    }
+                    
+                });
+            }, 600);
         });
     });
     $(document).ready(function() {
